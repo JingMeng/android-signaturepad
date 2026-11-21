@@ -1,12 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 Properties properties = new Properties()
 final def bintrayPropertiesFile = project.rootProject.file('bintray.properties')
 if (bintrayPropertiesFile.exists()) properties.load(bintrayPropertiesFile.newDataInputStream())
 
 android {
+    namespace 'com.github.gcacace.signaturepad'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
 
     defaultConfig {
@@ -20,7 +24,8 @@ android {
     }
 }
 
-bintray {
+// Legacy Bintray publication is retained as an inactive configuration.
+ext.legacyBintray = {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
